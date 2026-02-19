@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NVU | Student Registration</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-container">
+    <div class="logo-section">
+      <img src="images/logo.png" alt="NVU Logo" class="logo-img" />
+      <div class="university-text">
+        <h1>North Valley University</h1>
+        <p>Online Course Registration System</p>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <a class="nav-link" href="index.html">Home</a>
+      <a class="nav-link" href="course-search.html">Course Search</a>
+      <a class="nav-link active" href="student-registration.html">Student Registration</a>
+      <a class="nav-link" href="instructor-schedule.html">Instructor Schedule</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- LOGIN -->
+  <section id="studentLoginCard" class="card">
+    <h2>Student Login</h2>
+
+    <div class="form-grid">
+      <div>
+        <label>Student ID</label>
+        <input id="studentIdInput" />
+      </div>
+
+      <div>
+        <label>Password</label>
+        <input id="studentPasswordInput" type="password" />
+      </div>
+    </div>
+
+    <button id="studentLoginBtn" class="btn">Login</button>
+    <p id="studentLoginMsg"></p>
+  </section>
+
+  <!-- DASHBOARD -->
+  <section id="studentDash" class="card" hidden>
+    <h2>Student Dashboard</h2>
+    <p id="studentWelcome"></p>
+
+    <button id="studentLogoutBtn" class="btn">Logout</button>
+
+    <hr style="margin:16px 0; opacity:.25;" />
+
+    <h3>Your Enrolled Sessions</h3>
+    <div id="enrolledList"></div>
+
+    <hr style="margin:16px 0; opacity:.25;" />
+
+    <h3>Register for New Session</h3>
+    <select id="sessionSelect"></select>
+    <button id="registerBtn" class="btn">Register</button>
+    <p id="registerMsg"></p>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>© 2026 North Valley University</p>
+</footer>
+
+<script defer src="app.js"></script>
+</body>
+</html>

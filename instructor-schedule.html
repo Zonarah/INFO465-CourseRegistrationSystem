@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NVU | Instructor Schedule</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-container">
+    <div class="logo-section">
+      <img src="images/logo.png" alt="NVU Logo" class="logo-img" />
+      <div class="university-text">
+        <h1>North Valley University</h1>
+        <p>Online Course Registration System</p>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <a class="nav-link" href="index.html">Home</a>
+      <a class="nav-link" href="course-search.html">Course Search</a>
+      <a class="nav-link" href="student-registration.html">Student Registration</a>
+      <a class="nav-link active" href="instructor-schedule.html">Instructor Schedule</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- INSTRUCTOR LOGIN -->
+  <section id="instrLoginCard" class="card">
+    <h2>Instructor Login</h2>
+    <p>Enter your Instructor ID and password to view your schedule.</p>
+
+    <div class="form-grid">
+      <div>
+        <label for="instrIdInput">Instructor ID</label>
+        <input id="instrIdInput" autocomplete="username" />
+      </div>
+      <div>
+        <label for="instrPasswordInput">Password</label>
+        <input id="instrPasswordInput" type="password" autocomplete="current-password" />
+      </div>
+    </div>
+
+    <button id="instrLoginBtn" class="btn" type="button">Login</button>
+    <p id="instrLoginMsg"></p>
+  </section>
+
+  <!-- INSTRUCTOR DASHBOARD -->
+  <section id="instrDash" class="card" hidden>
+    <h2>Instructor Dashboard</h2>
+    <p id="instrWelcome"></p>
+
+    <button id="instrLogoutBtn" class="btn" type="button">Logout</button>
+
+    <hr style="margin:16px 0; opacity:.25;" />
+
+    <h3>Your Assigned Sessions</h3>
+    <div id="instrSessions"></div>
+
+    <hr style="margin:16px 0; opacity:.25;" />
+
+    <h3>Session Enrollment</h3>
+    <p id="sessionHint">Select a session above to view enrolled students.</p>
+    <div id="sessionEnrollment"></div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>© 2026 North Valley University</p>
+</footer>
+
+<script defer src="app.js"></script>
+</body>
+</html>

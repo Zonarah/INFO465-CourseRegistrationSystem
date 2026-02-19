@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NVU | Course Search</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-container">
+    <div class="logo-section">
+      <img src="images/logo.png" alt="NVU Logo" class="logo-img" />
+      <div class="university-text">
+        <h1>North Valley University</h1>
+        <p>Online Course Registration System</p>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <a class="nav-link" href="index.html">Home</a>
+      <a class="nav-link active" href="course-search.html">Course Search</a>
+      <a class="nav-link" href="student-registration.html">Student Registration</a>
+      <a class="nav-link" href="instructor-schedule.html">Instructor Schedule</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="card">
+    <h2>Course Search</h2>
+    <p>Search by department, instructor, or course number.</p>
+
+    <div class="form-grid">
+      <div>
+        <label for="dept">Department</label>
+        <select id="dept">
+          <option value="">Any</option>
+          <option value="CSCI">CSCI</option>
+          <option value="MATH">MATH</option>
+          <option value="ENG">ENG</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="courseNum">Course Number</label>
+        <input id="courseNum" placeholder="Example: 101" />
+      </div>
+
+      <div>
+        <label for="instructor">Instructor</label>
+        <input id="instructor" placeholder="Example: Rivera" />
+      </div>
+    </div>
+
+    <button id="searchBtn" class="btn">Search</button>
+    <p id="searchMsg"></p>
+  </section>
+
+  <!-- RESULTS -->
+  <section id="resultsWrap" class="card" hidden>
+    <h2>Search Results</h2>
+    <div id="resultsBody" class="course-list"></div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>© 2026 North Valley University</p>
+</footer>
+
+<script defer src="app.js"></script>
+</body>
+</html>
+
