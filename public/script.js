@@ -519,3 +519,188 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+  initStudentRegistration();
+
+  const DEMO_STUDENTS = [
+    { id: "1", password: "pass123", name: "Alex Johnson" },
+    { id: "2", password: "pass123", name: "Jamie Lee" },
+    { id: "3", password: "pass123", name: "Taylor Smith" }
+  ];
+
+  function initStudentRegistration() {
+    const loginCard = document.getElementById("studentLoginCard");
+    const dash = document.getElementById("studentDash");
+    const loginBtn = document.getElementById("studentLoginBtn");
+    const logoutBtn = document.getElementById("studentLogoutBtn");
+    const studentIdInput = document.getElementById("studentIdInput");
+    const studentPasswordInput = document.getElementById("studentPasswordInput");
+    const loginMsg = document.getElementById("studentLoginMsg");
+    const welcome = document.getElementById("studentWelcome");
+
+    const enrolledList = document.getElementById("enrolledList");
+    const sessionSelect = document.getElementById("sessionSelect");
+    const registerBtn = document.getElementById("registerBtn");
+    const registerMsg = document.getElementById("registerMsg");
+
+    if (!loginCard || !dash || !loginBtn || !logoutBtn || !studentIdInput || !studentPasswordInput) {
+      return;
+    }
+
+    let currentStudent = null;
+    dash.hidden = true;
+
+    async function loadStudentClasses(studentId) {
+      enrolledList.innerHTML = "<p>Loading enrolled sessions...</p>";
+
+      try {
+        const res = await fetch(`/api/students/${studentId}/classes`);
+        const data = await res.json();
+
+        if (!res.ok) {
+          enrolledList.innerHTML = `<p>${data.error || "Could not load enrolled sessions."}</p>`;
+          return;
+        }
+
+        enrolledList.innerHTML = "";
+
+        if (data.length === 0) {
+          enrolledList.innerHTML = "<p>No enrolled sessions.</p>";
+          return;
+        }
+
+        data.forEach(sess => {
+          const div = document.createElement("div");
+          div.className = "card";
+          div.style.marginTop = "12px";
+
+          div.innerHTML = `
+            <h3>${sess.course_num} — ${sess.course_name}</h3>
+            <p><strong>Section ID:</strong> ${sess.section_id}</p>
+            <p><strong>Section Number:</strong> ${sess.section_num}</p>
+            <p><strong>Term:</strong> ${sess.term} ${sess.year}</p>
+            <p><strong>Modality:</strong> ${sess.modality}</p>
+          `;
+
+          enrolledList.appendChild(div);
+        });
+      } catch (error) {
+        console.error("Error loading student classes:", error);
+        enrolledList.innerHTML = "<p>Error loading enrolled sessions.</p>";
+      }
+    }
+
+    async function loadAllSections() {
+      sessionSelect.innerHTML = "<option>Loading sections...</option>";
+
+      try {
+        const res = await fetch("/api/all-sections");
+        const data = await res.json();
+
+        if (!res.ok) {
+          sessionSelect.innerHTML = "<option>Could not load sections</option>";
+          return;
+        }
+
+        sessionSelect.innerHTML = "";
+
+        data.forEach(sess => {
+          const opt = document.createElement("option");
+          opt.value = sess.section_id;
+          opt.textContent = `${sess.course_num} — ${sess.course_name} | Section ${sess.section_num} | ${sess.term} ${sess.year}`;
+          sessionSelect.appendChild(opt);
+        });
+      } catch (error) {
+        console.error("Error loading sections:", error);
+        sessionSelect.innerHTML = "<option>Error loading sections</option>";
+      }
+    }
+
+    async function handleRegister() {
+      registerMsg.textContent = "";
+
+      const sectionId = sessionSelect.value;
+
+      if (!sectionId) {
+        registerMsg.textContent = "Please select a session.";
+        return;
+      }
+
+      try {
+        const res = await fetch("/api/enroll", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            student_id: currentStudent.id,
+            section_id: sectionId
+          })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          registerMsg.textContent = data.error || "Enrollment failed.";
+          return;
+        }
+
+        registerMsg.textContent = data.message || "Registration successful.";
+        await loadStudentClasses(currentStudent.id);
+      } catch (error) {
+        console.error("Registration error:", error);
+        registerMsg.textContent = "Could not register for the session.";
+      }
+    }
+
+    async function showDashboard() {
+      loginCard.hidden = true;
+      dash.hidden = false;
+      welcome.textContent = `Logged in as ${currentStudent.name} (${currentStudent.id})`;
+      loginMsg.textContent = "";
+      registerMsg.textContent = "";
+
+      await loadStudentClasses(currentStudent.id);
+      await loadAllSections();
+    }
+
+    function showLogin() {
+      dash.hidden = true;
+      loginCard.hidden = false;
+      studentIdInput.value = "";
+      studentPasswordInput.value = "";
+      loginMsg.textContent = "";
+      registerMsg.textContent = "";
+      currentStudent = null;
+    }
+
+    function handleLogin() {
+      const id = studentIdInput.value.trim();
+      const pass = studentPasswordInput.value.trim();
+
+      if (!id || !pass) {
+        loginMsg.textContent = "Please enter Student ID and Password.";
+        return;
+      }
+
+      const student = DEMO_STUDENTS.find(s => s.id === id && s.password === pass) || null;
+
+      if (!student) {
+        loginMsg.textContent = "Invalid Student ID or Password.";
+        return;
+      }
+
+      currentStudent = student;
+      showDashboard();
+    }
+
+    loginBtn.addEventListener("click", handleLogin);
+    logoutBtn.addEventListener("click", showLogin);
+    registerBtn.addEventListener("click", handleRegister);
+
+    studentPasswordInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") handleLogin();
+    });
+  }
+});
