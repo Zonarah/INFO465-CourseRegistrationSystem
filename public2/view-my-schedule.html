@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NVU My Schedule</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --green:#176f3d;
+      --green-dark:#11582f;
+      --green-soft:#e6eee8;
+      --gold:#cda347;
+      --gold-dark:#b48c38;
+      --bg:#f3f3f1;
+      --card:#ffffff;
+      --border:#d7d9d3;
+      --muted:#6c746f;
+      --text:#202522;
+      --danger:#c43629;
+      --shadow:0 4px 14px rgba(0,0,0,.06);
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    body {font-family:"Inter",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+    a{text-decoration:none;color:inherit}
+
+    .topbar{
+      background:var(--green);
+      border-bottom:4px solid var(--gold);
+      min-height:122px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:22px 34px;
+      gap:20px;
+    }
+
+    .brand{display:flex;align-items:center;gap:14px;color:#fff;min-width:0}
+    .brand-logo{
+      width:72px;height:72px;background:#f6f6f3;border-radius:16px;
+      display:grid;place-items:center;overflow:hidden;flex-shrink:0;
+    }
+    .brand-logo img{width:42px;height:42px;object-fit:contain}
+    .brand-title{font-size:18px;font-weight:800;letter-spacing:.04em;color:#fff;white-space:nowrap}
+    .brand-subtitle{font-size:14px;font-weight:500;color:#eef5ef;margin-top:4px}
+
+    .gold-btn{
+      height:50px;border-radius:16px;padding:0 20px;display:flex;align-items:center;gap:10px;
+      font-weight:700;font-size:16px;border:none;cursor:pointer;transition:.2s ease;
+      background:var(--gold);color:#172018;
+    }
+
+    .gold-btn:hover{background:var(--gold-dark)}
+
+    .icon{
+      width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;
+      stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;
+    }
+
+    .page{max-width:1380px;margin:0 auto;padding:30px 24px 120px;flex:1;width:100%}
+
+    .card{
+      background:var(--card);border:2px solid var(--border);border-radius:28px;
+      box-shadow:var(--shadow);margin-bottom:30px;
+    }
+
+    .hero{padding:34px 42px;position:relative;overflow:hidden}
+    .hero::before{
+      content:"";position:absolute;left:0;top:0;bottom:0;width:10px;
+      background:var(--gold);border-radius:24px 0 0 24px;
+    }
+
+    .hero h1,.panel-title{
+      font-family:"Libre Baskerville",serif;color:var(--green);font-weight:700;
+    }
+
+    .hero h1{font-size:58px;line-height:1.05;margin-bottom:12px}
+    .hero p{font-size:18px;color:var(--muted);line-height:1.5}
+
+    .stats-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:24px;
+      margin-bottom:30px;
+    }
+
+    .stat-card{
+      background:#fff;border:2px solid var(--border);border-radius:24px;
+      box-shadow:var(--shadow);padding:26px 28px;min-height:132px;position:relative;
+    }
+
+    .stat-card.green::before,
+    .stat-card.gold::before{
+      content:"";position:absolute;left:0;right:0;top:0;height:6px;border-radius:22px 22px 0 0;
+    }
+
+    .stat-card.green::before{background:var(--green)}
+    .stat-card.gold::before{background:var(--gold)}
+    .stat-label{font-size:14px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#6b736e;margin-bottom:14px}
+    .stat-value{font-size:42px;font-weight:800;color:var(--green);line-height:1}
+
+    .section{padding:28px 30px}
+    .panel-title{font-size:26px;margin-bottom:20px}
+
+    .table-wrap{
+      border:2px solid var(--border);
+      border-radius:20px;
+      overflow:hidden;
+      background:#fff;
+    }
+
+    table{width:100%;border-collapse:collapse;table-layout:fixed}
+    thead th{
+      background:#edf1ec;color:var(--green);text-align:left;font-size:18px;
+      font-weight:800;padding:18px 16px;
+    }
+
+    tbody td{
+      padding:18px 16px;vertical-align:top;border-top:1.5px solid #d8dbd5;
+      font-size:16px;color:#252a27;
+    }
+
+    .course-code{font-size:20px;font-weight:800;line-height:1.2;margin-bottom:4px}
+    .section-line{color:#747c77;font-size:14px;margin-bottom:6px}
+    .course-name{font-size:18px;line-height:1.35}
+    .time-line{font-size:17px;line-height:1.35;margin-bottom:4px}
+    .sub-line{color:#707873;font-size:14px;line-height:1.35}
+    .credit-line{font-size:20px;font-weight:800}
+    .mode-badge{
+      display:inline-flex;align-items:center;padding:6px 12px;border-radius:999px;
+      margin-top:10px;font-size:13px;font-weight:800;color:var(--green);
+      background:#e8efea;border:1px solid #bdd0c1;
+    }
+
+    .drop-btn{
+      height:46px;
+      border:none;
+      border-radius:16px;
+      padding:0 18px;
+      background:#c92c1b;
+      color:#fff;
+      font-size:16px;
+      font-weight:800;
+      cursor:pointer;
+    }
+
+    .drop-btn:hover{background:#ab2315}
+
+    .empty-box{
+      border:2px solid #bfd2c4;
+      border-left:8px solid var(--green);
+      border-radius:22px;
+      background:#f4f8f5;
+      padding:26px;
+      color:#616a64;
+      font-size:17px;
+      line-height:1.55;
+    }
+
+    .links-row{margin-top:22px}
+    .return-link{
+      display:inline-flex;align-items:center;gap:8px;color:var(--green);
+      font-size:18px;font-weight:800;margin-top:6px;
+    }
+
+    .return-link:hover{text-decoration:underline}
+    footer{text-align:center;color:#666f69;font-size:16px;padding-top:16px}
+
+    @media (max-width:1100px){
+      .hero h1{font-size:42px}
+      .page{padding-left:16px;padding-right:16px}
+      .table-wrap{overflow:auto}
+      table{min-width:1100px}
+      .stats-grid{grid-template-columns:1fr}
+    }
+
+    @media (max-width:760px){
+      .topbar{padding:18px 16px;align-items:flex-start;flex-direction:column}
+      .brand-title{white-space:normal}
+      .hero{padding:28px 22px}
+      .hero h1{font-size:34px}
+      .section{padding:22px 18px}
+      .brand-logo{width:56px;height:56px}
+      .brand-logo img{width:34px;height:34px}
+      .gold-btn{width:100%;justify-content:center}
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-logo">
+        <img src="images/logo.png" alt="NVU logo">
+      </div>
+      <div class="brand-text">
+        <div class="brand-title">NORTHERN VALLEY UNIVERSITY</div>
+        <div class="brand-subtitle">My Schedule</div>
+      </div>
+    </div>
+
+    <button class="gold-btn" id="signOutBtn">
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+        <path d="M10 17 15 12 10 7"></path>
+        <path d="M15 12H3"></path>
+      </svg>
+      Sign Out
+    </button>
+  </header>
+
+  <main class="page">
+    <section class="card hero">
+      <h1>My Schedule</h1>
+      <p>View your registered courses and drop a class if you need to adjust your schedule.</p>
+    </section>
+
+    <section class="stats-grid">
+      <div class="stat-card green">
+        <div class="stat-label">Enrolled Courses</div>
+        <div class="stat-value" id="enrolledCount">0</div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-label">Total Credits</div>
+        <div class="stat-value" id="totalCredits">0</div>
+      </div>
+      <div class="stat-card gold">
+        <div class="stat-label">Semester</div>
+        <div class="stat-value" id="semesterLabel">—</div>
+      </div>
+    </section>
+
+    <section class="card section">
+      <h2 class="panel-title">Registered Courses</h2>
+      <div id="scheduleContent"></div>
+
+      <div class="links-row">
+        <a class="return-link" href="student-dashboard.html">
+          <span style="font-size:24px;line-height:1">←</span>
+          <span>Back to Dashboard</span>
+        </a>
+      </div>
+    </section>
+
+    <footer>© 2026 Northern Valley University. All rights reserved.</footer>
+  </main>
+
+  <script>
+    const STORAGE_KEYS = {
+      registered: "nvu_registered_courses",
+      waitlist: "registrationWaitlist",
+      semester: "nvu_current_semester",
+      loggedIn: "isStudent"
+    };
+
+    function getRegisteredCourses() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEYS.registered);
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (error) {
+        return [];
+      }
+    }
+
+    function saveRegisteredCourses(courses) {
+      localStorage.setItem(STORAGE_KEYS.registered, JSON.stringify(courses));
+    }
+
+    function getWaitlistedCourses() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEYS.waitlist);
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (error) {
+        return [];
+      }
+    }
+
+    function saveWaitlistedCourses(courses) {
+      localStorage.setItem(STORAGE_KEYS.waitlist, JSON.stringify(courses));
+    }
+
+    function getSemester() {
+      return localStorage.getItem(STORAGE_KEYS.semester) || "Fall 2026";
+    }
+
+    function sumCredits(courses) {
+      return courses.reduce((sum, course) => sum + Number(course.credits || 0), 0);
+    }
+
+    function dropCourse(courseId) {
+      const courses = getRegisteredCourses();
+      const course = courses.find(item => item.id === courseId);
+      if (!course) return;
+
+      const confirmed = confirm(`Are you sure you want to drop ${course.code} - ${course.title}?`);
+      if (!confirmed) return;
+
+      const updated = courses.filter(item => item.id !== courseId);
+      saveRegisteredCourses(updated);
+      renderSchedule();
+    }
+
+    function removeWaitlistedCourse(courseId) {
+      const courses = getWaitlistedCourses();
+      const course = courses.find(item => item.id === courseId);
+      if (!course) return;
+
+      const confirmed = confirm(`Are you sure you want to remove ${course.code} - ${course.title} from your waitlist?`);
+      if (!confirmed) return;
+
+      const updated = courses.filter(item => item.id !== courseId);
+      saveWaitlistedCourses(updated);
+      renderSchedule();
+    }
+
+    function handleSignOut() {
+      const confirmed = confirm("Are you sure you want to sign out?");
+      if (!confirmed) return;
+
+      localStorage.removeItem(STORAGE_KEYS.loggedIn);
+      window.location.href = "index.html";
+    }
+
+    function renderCourseTable(courses, actionLabel, actionHandlerName, emptyMessage, badgeLabel) {
+      if (!courses.length) {
+        return `
+          <div class="empty-box">
+            ${emptyMessage}
+          </div>
+        `;
+      }
+
+      return `
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:22%">Course</th>
+                <th style="width:16%">Instructor</th>
+                <th style="width:18%">Schedule</th>
+                <th style="width:10%">Credits</th>
+                <th style="width:16%">Modality</th>
+                <th style="width:12%">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${courses.map(course => `
+                <tr>
+                  <td>
+                    <div class="course-code">${course.code}</div>
+                    <div class="section-line">Section ${course.section}</div>
+                    <div class="course-name">${course.title}</div>
+                    ${badgeLabel ? `<div class="mode-badge" style="margin-top:12px">${badgeLabel}</div>` : ""}
+                  </td>
+                  <td>
+                    <div class="time-line">${course.instructor || "TBA"}</div>
+                  </td>
+                  <td>
+                    <div class="time-line">${course.daysLabel || ""}</div>
+                    <div class="sub-line">${course.time || course.timeLabel || ""}</div>
+                    <div class="sub-line">${course.location || ""}</div>
+                  </td>
+                  <td>
+                    <div class="credit-line">${course.credits || 0}</div>
+                  </td>
+                  <td>
+                    <div class="mode-badge">${course.modality || course.mode || "In Person"}</div>
+                  </td>
+                  <td>
+                    <button class="drop-btn" onclick="${actionHandlerName}('${course.id}')">${actionLabel}</button>
+                  </td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function renderSchedule() {
+      const registeredCourses = getRegisteredCourses();
+      const waitlistedCourses = getWaitlistedCourses();
+      const semester = registeredCourses[0]?.semester || waitlistedCourses[0]?.semester || getSemester();
+      const scheduleContent = document.getElementById("scheduleContent");
+
+      document.getElementById("enrolledCount").textContent = registeredCourses.length;
+      document.getElementById("totalCredits").textContent = sumCredits(registeredCourses);
+      document.getElementById("semesterLabel").textContent = semester;
+
+      if (!registeredCourses.length && !waitlistedCourses.length) {
+        scheduleContent.innerHTML = `
+          <div class="empty-box">
+            You are not currently registered for any courses or waitlists.
+          </div>
+        `;
+        return;
+      }
+
+      scheduleContent.innerHTML = `
+        <div style="display:grid;gap:26px;">
+          <div>
+            <h3 class="panel-title" style="font-size:22px;margin-bottom:16px;">Registered Courses</h3>
+            ${renderCourseTable(registeredCourses, "Drop", "dropCourse", "You are not currently registered for any courses.", "")}
+          </div>
+          <div>
+            <h3 class="panel-title" style="font-size:22px;margin-bottom:16px;">Waitlisted Courses</h3>
+            ${renderCourseTable(waitlistedCourses, "Remove", "removeWaitlistedCourse", "You are not currently on any waitlists.", "Waitlisted")}
+          </div>
+        </div>
+      `;
+    }
+
+    document.getElementById("signOutBtn").addEventListener("click", handleSignOut);
+    window.addEventListener("storage", function(event) {
+      if (
+        event.key === STORAGE_KEYS.registered ||
+        event.key === STORAGE_KEYS.waitlist ||
+        event.key === STORAGE_KEYS.semester
+      ) {
+        renderSchedule();
+      }
+    });
+    renderSchedule();
+  </script>
+</body>
+</html>

@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NVU Course Registration</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --green:#176f3d;
+      --green-dark:#11582f;
+      --green-soft:#e6eee8;
+      --gold:#cda347;
+      --gold-dark:#b48c38;
+      --bg:#f3f3f1;
+      --card:#ffffff;
+      --border:#d7d9d3;
+      --muted:#6c746f;
+      --text:#202522;
+      --danger:#c43629;
+      --shadow:0 4px 14px rgba(0,0,0,.06);
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    body {font-family:"Inter",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+    a{text-decoration:none;color:inherit}
+
+    .topbar{
+      background:var(--green);
+      border-bottom:4px solid var(--gold);
+      min-height:122px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:22px 34px;
+      gap:20px;
+    }
+
+    .brand{display:flex;align-items:center;gap:14px;color:#fff;min-width:0}
+    .brand-logo{
+      width:72px;height:72px;background:#f6f6f3;border-radius:16px;
+      display:grid;place-items:center;overflow:hidden;flex-shrink:0;
+    }
+    .brand-logo img{width:42px;height:42px;object-fit:contain}
+    .brand-title{font-size:18px;font-weight:800;letter-spacing:.04em;color:#fff;white-space:nowrap}
+    .brand-subtitle{font-size:14px;font-weight:500;color:#eef5ef;margin-top:4px}
+
+    .header-actions{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+
+    .outline-btn,.gold-btn{
+      height:50px;border-radius:16px;padding:0 20px;display:flex;align-items:center;gap:10px;
+      font-weight:700;font-size:16px;border:none;cursor:pointer;transition:.2s ease;
+    }
+
+    .outline-btn{color:#fff;background:transparent;border:1.8px solid rgba(255,255,255,.26)}
+    .outline-btn:hover{background:rgba(255,255,255,.08)}
+    .gold-btn{background:var(--gold);color:#172018}
+    .gold-btn:hover{background:var(--gold-dark)}
+
+    .count-pill{
+      min-width:28px;height:24px;border-radius:999px;background:var(--gold);
+      display:inline-flex;align-items:center;justify-content:center;color:#172018;
+      font-size:14px;font-weight:800;padding:0 8px;
+    }
+
+    .icon{
+      width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;
+      stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;
+    }
+
+    .page{max-width:1380px;margin:0 auto;padding:30px 24px 120px;flex:1;width:100%}
+
+    .card{
+      background:var(--card);border:2px solid var(--border);border-radius:28px;
+      box-shadow:var(--shadow);margin-bottom:30px;
+    }
+
+    .hero{
+      padding:34px 42px;position:relative;overflow:hidden;
+    }
+
+    .hero::before{
+      content:"";position:absolute;left:0;top:0;bottom:0;width:10px;
+      background:var(--gold);border-radius:24px 0 0 24px;
+    }
+
+    .hero h1,.section-title,.panel-title{
+      font-family:"Libre Baskerville",serif;color:var(--green);font-weight:700;
+    }
+
+    .hero h1{font-size:58px;line-height:1.05;margin-bottom:12px}
+    .hero p{font-size:18px;color:var(--muted);line-height:1.5}
+
+    .stats-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:24px;
+      margin-bottom:30px;
+    }
+
+    .stat-card{
+      background:#fff;border:2px solid var(--border);border-radius:24px;
+      box-shadow:var(--shadow);padding:26px 28px;min-height:132px;
+      position:relative;
+    }
+
+    .stat-card.green::before,
+    .stat-card.gold::before{
+      content:"";position:absolute;left:0;right:0;top:0;height:6px;
+      border-radius:22px 22px 0 0;
+    }
+
+    .stat-card.green::before{background:var(--green)}
+    .stat-card.gold::before{background:var(--gold)}
+    .stat-label{font-size:14px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#6b736e;margin-bottom:14px}
+    .stat-value{font-size:42px;font-weight:800;color:var(--green);line-height:1}
+
+    .section{padding:28px 30px}
+    .panel-head{
+      display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;
+      margin-bottom:18px;
+    }
+
+    .panel-title{font-size:26px}
+    .clear-btn{
+      height:48px;border:none;border-radius:16px;padding:0 18px;background:#ebeeea;
+      color:#212621;font-size:16px;font-weight:800;cursor:pointer;transition:.2s ease;
+      display:inline-flex;align-items:center;gap:10px;
+    }
+    .clear-btn:hover{background:#dfe4de}
+
+    .alert-box{
+      margin-bottom:18px;background:#fff4e5;color:#7a5313;border:1px solid #efd7a8;
+      border-left:6px solid var(--gold);border-radius:16px;padding:14px 16px;font-weight:600;
+      line-height:1.5;display:none;
+    }
+
+    .table-wrap{
+      border:2px solid var(--border);
+      border-radius:20px;
+      overflow:hidden;
+      background:#fff;
+    }
+
+    table{width:100%;border-collapse:collapse;table-layout:fixed}
+    thead th{
+      background:#edf1ec;color:var(--green);text-align:left;font-size:18px;
+      font-weight:800;padding:18px 16px;
+    }
+
+    tbody td{
+      padding:18px 16px;vertical-align:top;border-top:1.5px solid #d8dbd5;
+      font-size:16px;color:#252a27;
+    }
+
+    .course-code{font-size:20px;font-weight:800;line-height:1.2;margin-bottom:4px}
+    .section-line{color:#747c77;font-size:14px;margin-bottom:6px}
+    .course-name{font-size:18px;line-height:1.35}
+    .time-line{font-size:17px;line-height:1.35;margin-bottom:4px}
+    .sub-line{color:#707873;font-size:14px;line-height:1.35}
+    .credit-line{font-size:20px;font-weight:800}
+    .mode-badge{
+      display:inline-flex;align-items:center;padding:6px 12px;border-radius:999px;
+      margin-top:10px;font-size:13px;font-weight:800;color:var(--green);
+      background:#e8efea;border:1px solid #bdd0c1;
+    }
+
+    .remove-btn{
+      width:48px;height:48px;border:none;border-radius:16px;background:#c92c1b;color:#fff;
+      font-size:24px;cursor:pointer;
+    }
+
+    .bottom-bar{
+      display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;
+      margin-top:24px;
+    }
+
+    .totals-note{
+      font-size:18px;
+      color:#626b65;
+      font-weight:700;
+    }
+
+    .totals-note strong{color:#1f2421}
+
+    .complete-btn{
+      height:52px;border:none;border-radius:16px;padding:0 24px;background:var(--gold);
+      color:#172018;font-size:18px;font-weight:800;cursor:pointer;transition:.2s ease;
+      min-width:220px;
+    }
+
+    .complete-btn:hover{background:var(--gold-dark)}
+    .complete-btn:disabled{background:#dfd8ca;color:#8b857a;cursor:not-allowed}
+
+    .message-box{
+      border:2px solid #bfd2c4;
+      border-left:8px solid var(--green);
+      border-radius:22px;
+      background:#f4f8f5;
+      padding:26px 26px 22px;
+    }
+
+    .message-title{
+      font-size:24px;
+      font-weight:800;
+      color:#1e2421;
+      margin-bottom:10px;
+    }
+
+    .message-copy{
+      font-size:17px;
+      line-height:1.55;
+      color:#616a64;
+      margin-bottom:20px;
+    }
+
+    .message-actions{
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+
+    .action-btn-primary,.action-btn-secondary{
+      height:48px;border-radius:16px;padding:0 18px;display:inline-flex;align-items:center;
+      justify-content:center;font-size:16px;font-weight:800;
+    }
+
+    .action-btn-primary{background:var(--green);color:#fff}
+    .action-btn-primary:hover{background:var(--green-dark)}
+    .action-btn-secondary{background:#ebeeea;color:#212621}
+    .action-btn-secondary:hover{background:#dfe4de}
+
+    .links-row{margin-top:22px}
+    .return-link{
+      display:inline-flex;align-items:center;gap:8px;color:var(--green);
+      font-size:18px;font-weight:800;margin-top:6px;
+    }
+
+    .return-link:hover{text-decoration:underline}
+
+    footer{text-align:center;color:#666f69;font-size:16px;padding-top:16px}
+
+    @media (max-width:1100px){
+      .hero h1{font-size:42px}
+      .page{padding-left:16px;padding-right:16px}
+      .table-wrap{overflow:auto}
+      table{min-width:1050px}
+      .stats-grid{grid-template-columns:1fr}
+    }
+
+    @media (max-width:760px){
+      .topbar{padding:18px 16px;align-items:flex-start;flex-direction:column}
+      .brand-title{white-space:normal}
+      .header-actions{width:100%}
+      .hero{padding:28px 22px}
+      .hero h1{font-size:34px}
+      .section{padding:22px 18px}
+      .brand-logo{width:56px;height:56px}
+      .brand-logo img{width:34px;height:34px}
+      .outline-btn,.gold-btn{width:100%;justify-content:center}
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-logo">
+        <img src="images/logo.png" alt="NVU logo">
+      </div>
+      <div class="brand-text">
+        <div class="brand-title">NORTHERN VALLEY UNIVERSITY</div>
+        <div class="brand-subtitle">Course Registration</div>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button class="outline-btn" type="button">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6 10h13l-1.2 7.2a2 2 0 0 1-2 1.7H9.2a2 2 0 0 1-2-1.7L6 10Z"></path>
+          <path d="M8 10 10.5 5h3L16 10"></path>
+          <path d="M10 12v2"></path>
+          <path d="M14 12v2"></path>
+        </svg>
+        Basket
+        <span class="count-pill" id="basketCountTop">0</span>
+      </button>
+
+      <button class="gold-btn" type="button" id="signOutBtn">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+          <path d="M10 17 15 12 10 7"></path>
+          <path d="M15 12H3"></path>
+        </svg>
+        Sign Out
+      </button>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="card hero">
+      <h1>Register for Classes</h1>
+      <p>Review the courses you've added to your basket, then complete registration.</p>
+    </section>
+
+    <section class="stats-grid">
+      <div class="stat-card green">
+        <div class="stat-label">Classes in Basket</div>
+        <div class="stat-value" id="basketCountMain">0</div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-label">Total Credits</div>
+        <div class="stat-value" id="totalCredits">0</div>
+      </div>
+      <div class="stat-card gold">
+        <div class="stat-label">Semester</div>
+        <div class="stat-value" id="semesterLabel">—</div>
+      </div>
+    </section>
+
+    <section class="card section">
+      <div class="panel-head">
+        <h2 class="panel-title" id="panelTitle">Selected Courses</h2>
+        <button class="clear-btn" id="clearBasketBtn">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 6h18"></path>
+            <path d="M8 6V4h8v2"></path>
+            <path d="M19 6l-1 14H6L5 6"></path>
+            <path d="M10 11v6"></path>
+            <path d="M14 11v6"></path>
+          </svg>
+          Clear basket
+        </button>
+      </div>
+
+      <div class="alert-box" id="alertBox"></div>
+      <div id="registrationContent"></div>
+
+      <div class="links-row">
+        <a class="return-link" href="browse-classes.html">
+          <span style="font-size:24px;line-height:1">←</span>
+          <span>Back to Browse Classes</span>
+        </a>
+      </div>
+    </section>
+
+    <footer>© 2026 Northern Valley University. All rights reserved.</footer>
+  </main>
+
+  <script>
+    const STORAGE_KEYS = {
+      basket: "nvu_basket_courses",
+      registered: "nvu_registered_courses",
+      semester: "nvu_current_semester",
+      loggedIn: "isStudent"
+    };
+
+    const MAX_CREDITS = 18;
+
+    function getStoredArray(key) {
+      try {
+        const raw = localStorage.getItem(key);
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (error) {
+        return [];
+      }
+    }
+
+    function saveStoredArray(key, value) {
+      localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    function getBasketCourses() {
+      return getStoredArray(STORAGE_KEYS.basket);
+    }
+
+    function saveBasketCourses(courses) {
+      saveStoredArray(STORAGE_KEYS.basket, courses);
+    }
+
+    function getRegisteredCourses() {
+      return getStoredArray(STORAGE_KEYS.registered);
+    }
+
+    function saveRegisteredCourses(courses) {
+      saveStoredArray(STORAGE_KEYS.registered, courses);
+    }
+
+    function getSemester() {
+      return localStorage.getItem(STORAGE_KEYS.semester) || "Fall 2026";
+    }
+
+    function sumCredits(courses) {
+      return courses.reduce((sum, course) => sum + Number(course.credits || 0), 0);
+    }
+
+    function showAlert(message) {
+      const alertBox = document.getElementById("alertBox");
+      alertBox.style.display = "block";
+      alertBox.textContent = message;
+    }
+
+    function hideAlert() {
+      const alertBox = document.getElementById("alertBox");
+      alertBox.style.display = "none";
+      alertBox.textContent = "";
+    }
+
+    function formatModality(modality) {
+      return modality || "In Person";
+    }
+
+    function removeFromBasket(courseId) {
+      const basket = getBasketCourses();
+      const target = basket.find(course => course.id === courseId);
+      if (!target) return;
+
+      const confirmed = confirm(`Remove ${target.code} - ${target.title} from your basket?`);
+      if (!confirmed) return;
+
+      const updated = basket.filter(course => course.id !== courseId);
+      saveBasketCourses(updated);
+      renderRegistrationPage();
+    }
+
+    function clearBasket() {
+      const basket = getBasketCourses();
+      if (!basket.length) return;
+
+      const confirmed = confirm("Are you sure you want to clear your basket?");
+      if (!confirmed) return;
+
+      saveBasketCourses([]);
+      renderRegistrationPage();
+    }
+
+    function confirmRegistration() {
+      hideAlert();
+
+      const basket = getBasketCourses();
+      const registered = getRegisteredCourses();
+
+      if (!basket.length) {
+        showAlert("Your basket is empty. Add classes before completing registration.");
+        return;
+      }
+
+      const registeredIds = new Set(registered.map(course => course.id));
+      const duplicateCourses = basket.filter(course => registeredIds.has(course.id));
+
+      if (duplicateCourses.length) {
+        showAlert("One or more selected classes are already in your schedule. Remove duplicates and try again.");
+        return;
+      }
+
+      const combinedCredits = sumCredits(registered) + sumCredits(basket);
+      if (combinedCredits > MAX_CREDITS) {
+        showAlert(`You cannot register because your total would be ${combinedCredits} credits. The maximum allowed is ${MAX_CREDITS}.`);
+        return;
+      }
+
+      const confirmed = confirm("Complete registration for the selected courses?");
+      if (!confirmed) return;
+
+      const updatedRegistered = [...registered, ...basket];
+      saveRegisteredCourses(updatedRegistered);
+      saveBasketCourses([]);
+      renderRegistrationPage();
+    }
+
+    function handleSignOut() {
+      const confirmed = confirm("Are you sure you want to sign out?");
+      if (!confirmed) return;
+
+      localStorage.removeItem(STORAGE_KEYS.loggedIn);
+      window.location.href = "index.html";
+    }
+
+    function renderBasketState() {
+      hideAlert();
+
+      const basket = getBasketCourses();
+      const totalCredits = sumCredits(basket);
+      const semester = basket[0]?.semester || getSemester();
+
+      document.getElementById("basketCountTop").textContent = basket.length;
+      document.getElementById("basketCountMain").textContent = basket.length;
+      document.getElementById("totalCredits").textContent = totalCredits;
+      document.getElementById("semesterLabel").textContent = basket.length ? semester : "—";
+      document.getElementById("clearBasketBtn").style.display = basket.length ? "inline-flex" : "none";
+    }
+
+    function renderSelectedCourses() {
+      const basket = getBasketCourses();
+      const registered = getRegisteredCourses();
+      const content = document.getElementById("registrationContent");
+      const panelTitle = document.getElementById("panelTitle");
+
+      panelTitle.textContent = "Selected Courses";
+
+      if (!basket.length) {
+        if (registered.length) {
+          content.innerHTML = `
+            <div class="message-box">
+              <div class="message-title">Registration Confirmed</div>
+              <div class="message-copy">
+                You're enrolled.<br>
+                Your selected courses have been submitted to the registrar. View your full schedule from the dashboard.
+              </div>
+              <div class="message-actions">
+                <a href="student-dashboard.html" class="action-btn-primary">Back to Dashboard</a>
+                <a href="browse-classes.html" class="action-btn-secondary">Browse More Classes</a>
+              </div>
+            </div>
+          `;
+        } else {
+          content.innerHTML = `
+            <div class="message-box">
+              <div class="message-title">Your basket is empty</div>
+              <div class="message-copy">
+                Add classes from the browse classes page, then come back here to complete registration.
+              </div>
+              <div class="message-actions">
+                <a href="browse-classes.html" class="action-btn-primary">Browse Classes</a>
+                <a href="student-dashboard.html" class="action-btn-secondary">Back to Dashboard</a>
+              </div>
+            </div>
+          `;
+        }
+        return;
+      }
+
+      const totalCredits = sumCredits(basket);
+
+      content.innerHTML = `
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:22%">Course</th>
+                <th style="width:16%">Instructor</th>
+                <th style="width:18%">Schedule</th>
+                <th style="width:10%">Credits</th>
+                <th style="width:16%">Modality</th>
+                <th style="width:10%">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${basket.map(course => `
+                <tr>
+                  <td>
+                    <div class="course-code">${course.code}</div>
+                    <div class="section-line">Section ${course.section}</div>
+                    <div class="course-name">${course.title}</div>
+                  </td>
+                  <td>
+                    <div class="time-line">${course.instructor}</div>
+                  </td>
+                  <td>
+                    <div class="time-line">${course.daysLabel || ""}</div>
+                    <div class="sub-line">${course.time || course.timeLabel || ""}</div>
+                    <div class="sub-line">${course.location || ""}</div>
+                  </td>
+                  <td>
+                    <div class="credit-line">${course.credits || 0}</div>
+                  </td>
+                  <td>
+                    <div class="mode-badge">${formatModality(course.modality || course.mode)}</div>
+                  </td>
+                  <td>
+                    <button class="remove-btn" onclick="removeFromBasket('${course.id}')" title="Remove from basket">×</button>
+                  </td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="bottom-bar">
+          <div class="totals-note">
+            Total: <strong>${basket.length}</strong> class${basket.length === 1 ? "" : "es"} ·
+            <strong>${totalCredits}</strong> credits
+          </div>
+          <button class="complete-btn" id="completeRegistrationBtn">Complete Registration</button>
+        </div>
+      `;
+
+      document.getElementById("completeRegistrationBtn").addEventListener("click", confirmRegistration);
+    }
+
+    function renderRegistrationPage() {
+      renderBasketState();
+      renderSelectedCourses();
+    }
+
+    document.getElementById("clearBasketBtn").addEventListener("click", clearBasket);
+    document.getElementById("signOutBtn").addEventListener("click", handleSignOut);
+
+    window.addEventListener("storage", function(event) {
+      if (
+        event.key === STORAGE_KEYS.basket ||
+        event.key === STORAGE_KEYS.registered ||
+        event.key === STORAGE_KEYS.semester
+      ) {
+        renderRegistrationPage();
+      }
+    });
+
+    renderRegistrationPage();
+  </script>
+</body>
+</html>

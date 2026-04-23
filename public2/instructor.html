@@ -1,0 +1,1120 @@
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NVU Instructor Portal</title>
+  <style>
+    :root {
+      --nvu-green: #146c43;
+      --nvu-green-dark: #0f5a38;
+      --nvu-gold: #d1a23d;
+      --nvu-bg: #f3f4f1;
+      --nvu-card: #ffffff;
+      --nvu-border: #d7dbd4;
+      --nvu-text: #253127;
+      --nvu-muted: #66736a;
+      --nvu-soft: #eef2ed;
+      --nvu-pill: #edf5ef;
+      --shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      --max-width: 1200px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--nvu-bg);
+      color: var(--nvu-text);
+      font-family:"Inter",sans-serif;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .app-shell {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      background: var(--nvu-green);
+      color: white;
+      border-bottom: 4px solid var(--nvu-gold);
+      padding: 12px 28px 18px;
+    }
+
+    .topbar-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .logo-box {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .logo-box img {
+      width: 78%;
+      height: 78%;
+      object-fit: contain;
+    }
+
+    .brand-title {
+      line-height: 1.1;
+    }
+
+    .brand-title h1 {
+      margin: 0;
+      font-family:"Inter",sans-serif;
+      font-size:18px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+          letter-spacing:0.04em;
+      line-height:1.2;
+    }
+
+    .brand-title p {
+      margin: 5px 0 0;
+      font-size:14px;
+      opacity: 0.92;
+        }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .welcome-pill {
+      background: rgba(255, 255, 255, 0.14);
+      color: #fff;
+      border-radius: 999px;
+      padding: 11px 16px;
+      font-size: 0.92rem;
+      white-space: nowrap;
+    }
+
+    .btn {
+      border: none;
+      outline: none;
+      cursor: pointer;
+      font-family:"Inter",sans-serif;
+      font-weight: 700;
+      transition: 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      opacity: 0.96;
+    }
+
+    .btn-gold {
+      background: var(--nvu-gold);
+      color: #1f241f;
+      border-radius: 14px;
+      padding: 12px 22px;
+      font-size: 0.96rem;
+      box-shadow: var(--shadow);
+    }
+
+    .btn-green {
+      background: var(--nvu-green);
+      color: white;
+      border-radius: 14px;
+      padding: 11px 20px;
+      font-size: 0.95rem;
+      box-shadow: var(--shadow);
+    }
+
+    .btn-link {
+      background: transparent;
+      color: var(--nvu-green);
+      font-size: 0.96rem;
+      padding: 0;
+      text-decoration: underline;
+      font-weight: 700;
+    }
+
+    main {
+      flex: 1;
+      padding: 44px 20px 20px;
+    }
+
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .login-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: calc(100vh - 180px);
+      padding-top: 20px;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 660px;
+      background: white;
+      border: 1px solid var(--nvu-border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .login-hero {
+      background: var(--nvu-green);
+      color: white;
+      padding: 30px 40px;
+      border-bottom: 4px solid var(--nvu-gold);
+      text-align: center;
+    }
+
+    .login-hero h2 {
+      margin: 0;
+      font-size: 3rem;
+      line-height: 1.05;
+      font-weight: 700;
+    }
+
+    .login-note {
+      border-left: 8px solid var(--nvu-gold);
+      background: #eef1ec;
+      padding: 22px 36px;
+    }
+
+    .login-note h3 {
+      margin: 0 0 8px;
+      font-size: 1.5rem;
+      color: #1e251f;
+    }
+
+    .login-note p {
+      margin: 0;
+      color: var(--nvu-muted);
+      font-size: 1rem;
+    }
+
+    .login-form {
+      padding: 34px 36px 24px;
+    }
+
+    .form-group {
+      margin-bottom: 22px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 800;
+      font-size: 1rem;
+      margin-bottom: 10px;
+      color: #232823;
+    }
+
+    .form-control {
+      width: 100%;
+      border: 3px solid #d6d8d2;
+      border-radius: 14px;
+      padding: 16px 15px;
+      font-size: 1rem;
+      background: #fafaf8;
+    }
+
+    .form-control:focus {
+      border-color: var(--nvu-green);
+      outline: none;
+      background: white;
+    }
+
+    .login-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-top: 10px;
+      margin-bottom: 26px;
+      flex-wrap: wrap;
+    }
+
+    .return-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: var(--nvu-green);
+      font-weight: 700;
+      margin: 16px 0 24px;
+      font-size: 0.96rem;
+    }
+
+    .demo-box {
+      border: 1px solid var(--nvu-border);
+      border-radius: 16px;
+      padding: 18px 20px;
+      background: #fafbf8;
+      color: #333a34;
+      line-height: 1.65;
+      font-size: 0.95rem;
+    }
+
+    .error-message {
+      margin-top: 8px;
+      color: #b42318;
+      font-weight: 700;
+      display: none;
+      font-size: 0.95rem;
+    }
+
+    .hero-card,
+    .stats-card,
+    .course-card,
+    .roster-card {
+      background: var(--nvu-card);
+      border: 1px solid var(--nvu-border);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card {
+      padding: 28px 32px;
+      border-left: 8px solid var(--nvu-gold);
+      margin-bottom: 30px;
+    }
+
+    .hero-card h2 {
+      margin: 0 0 12px;
+      font-size: 2.6rem;
+      color: var(--nvu-green);
+      line-height: 1.08;
+    }
+
+    .hero-card p {
+      margin: 0;
+      font-size: 1rem;
+      color: var(--nvu-muted);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 26px;
+    }
+
+    .stats-card {
+      padding: 22px 22px 20px;
+      border-top: 5px solid var(--nvu-green);
+    }
+
+    .stats-card .label {
+      font-weight: 800;
+      text-transform: uppercase;
+      color: #6f756f;
+      letter-spacing: 0.3px;
+      font-size: 0.88rem;
+      margin-bottom: 12px;
+    }
+
+    .stats-card .value {
+      font-size: 2.4rem;
+      color: var(--nvu-green);
+      font-weight: 700;
+      margin-bottom: 6px;
+      line-height: 1;
+    }
+
+    .stats-card .subtext {
+      color: var(--nvu-muted);
+      font-size: 0.95rem;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--nvu-green);
+      margin: 22px 0 20px;
+    }
+
+    .section-title h3 {
+      margin: 0;
+      font-size: 1.9rem;
+    }
+
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+    }
+
+    .course-card {
+      padding: 20px 22px;
+    }
+
+    .course-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+
+    .term-label {
+      color: var(--nvu-gold);
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-size: 0.88rem;
+      margin-bottom: 12px;
+    }
+
+    .course-title {
+      margin: 0 0 8px;
+      font-size: 1.55rem;
+      line-height: 1.15;
+      color: #212a22;
+    }
+
+    .course-meta {
+      color: var(--nvu-muted);
+      font-size: 0.95rem;
+      line-height: 1.45;
+    }
+
+    .mode-pill,
+    .year-pill {
+      background: var(--nvu-pill);
+      color: var(--nvu-green);
+      border: 2px solid #cfe0d3;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      white-space: nowrap;
+    }
+
+    .course-bottom {
+      margin-top: 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .enrollment-text {
+      color: var(--nvu-green);
+      font-weight: 800;
+      font-size: 0.96rem;
+    }
+
+    .roster-card {
+      padding: 22px 22px 28px;
+    }
+
+    .roster-title {
+      color: var(--nvu-green);
+      font-size: 1.8rem;
+      margin: 0 0 18px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--nvu-border);
+      border-radius: 16px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      min-width: 900px;
+    }
+
+    thead th {
+      background: #edf0ea;
+      color: var(--nvu-green);
+      font-size: 0.95rem;
+      text-align: left;
+      padding: 16px 14px;
+      border-bottom: 1px solid var(--nvu-border);
+    }
+
+    tbody td {
+      padding: 16px 14px;
+      border-bottom: 1px solid #e1e5de;
+      font-size: 0.95rem;
+      color: #2e352f;
+    }
+
+    tbody tr:hover {
+      background: #fafcf9;
+    }
+
+    .student-name {
+      font-weight: 800;
+      font-size: 0.98rem;
+      color: #1f2520;
+    }
+
+    .email-link {
+      color: var(--nvu-green);
+      text-decoration: none;
+    }
+
+    .email-link:hover {
+      text-decoration: underline;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 22px;
+      color: var(--nvu-green);
+      font-weight: 800;
+      font-size: 0.95rem;
+      text-decoration: none;
+    }
+
+    footer {
+      text-align: center;
+      padding: 18px 12px 26px;
+      color: #5b655d;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 1100px) {
+      .stats-grid,
+      .courses-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .topbar-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .topbar-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .brand-title h1 {
+        font-size: 1.3rem;
+      }
+
+      .hero-card h2 {
+        font-size: 2.1rem;
+      }
+
+      .login-hero h2 {
+        font-size: 2.3rem;
+      }
+
+      .login-form,
+      .login-note,
+      .login-hero,
+      .hero-card,
+      .course-card,
+      .roster-card,
+      .stats-card {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+    }
+  </style>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand">
+          <div class="logo-box">
+            <img src="images/logo.png" alt="Northern Valley University logo">
+          </div>
+          <div class="brand-title">
+            <h1>NORTHERN VALLEY UNIVERSITY</h1>
+            <p id="headerSubTitle"></p>
+          </div>
+        </div>
+
+        <div class="topbar-actions hidden" id="authActions">
+          <div class="welcome-pill" id="welcomeText">Welcome, Asha Patel</div>
+          <button class="btn btn-gold" id="logoutBtn" type="button">Sign Out</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <!-- LOGIN VIEW -->
+        <section id="loginView" class="login-wrap">
+          <div class="login-card">
+            <div class="login-hero">
+              <h2>Instructor Login</h2>
+            </div>
+
+            <div class="login-note">
+              <h3>Sign In</h3>
+              <p>Use your Northern Valley University faculty credentials to access instructor services.</p>
+            </div>
+
+            <div class="login-form">
+              <div class="form-group">
+                <label for="facultyId">Faculty eID / Faculty Email</label>
+                <input
+                  type="text"
+                  id="facultyId"
+                  class="form-control"
+                  placeholder="Enter your faculty eID or email"
+                  autocomplete="username"
+                >
+              </div>
+
+              <div class="form-group">
+                <label for="facultyPassword">Password</label>
+                <input
+                  type="password"
+                  id="facultyPassword"
+                  class="form-control"
+                  placeholder="Enter your password"
+                  autocomplete="current-password"
+                >
+              </div>
+
+              <div class="login-row">
+                <button class="btn btn-gold" id="loginBtn" type="button">Login</button>
+                <button class="btn btn-link" id="forgotBtn" type="button">Forgot your password?</button>
+              </div>
+
+              <div class="error-message" id="loginError">
+                Invalid faculty login. Use the demo credentials below.
+              </div>
+
+              <a href="index.html" class="return-link">← Return to NVU eServices</a>
+
+              <div class="demo-box">
+                <strong>Hardcoded demo login:</strong><br>
+                Faculty eID or Email: <strong>nvuprof01</strong> or <strong>instructor@nvu.edu</strong><br>
+                Password: <strong>NvuTeach123</strong>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- DASHBOARD VIEW -->
+        <section id="dashboardView" class="hidden">
+          <div class="hero-card">
+            <h2>Instructor Dashboard</h2>
+            <p>Manage your teaching responsibilities. View assigned sections and class rosters.</p>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stats-card">
+              <div class="label">Assigned Courses</div>
+              <div class="value" id="assignedCoursesCount">0</div>
+              <div class="subtext">Across all active terms</div>
+            </div>
+
+            <div class="stats-card">
+              <div class="label">Enrolled Students</div>
+              <div class="value" id="totalEnrolledCount">0</div>
+              <div class="subtext">Total across sections</div>
+            </div>
+
+            <div class="stats-card">
+              <div class="label">Faculty Standing</div>
+              <div class="value" style="font-size:2.1rem;">Active</div>
+              <div class="subtext">Full teaching privileges</div>
+            </div>
+          </div>
+
+          <div class="section-title">
+            <h3>Assigned Courses</h3>
+          </div>
+
+          <div class="courses-grid" id="coursesGrid"></div>
+        </section>
+
+        <!-- ROSTER VIEW -->
+        <section id="rosterView" class="hidden">
+          <div class="hero-card">
+            <div class="term-label" id="rosterTermLabel"></div>
+            <h2 id="rosterCourseTitle"></h2>
+            <p id="rosterCourseMeta"></p>
+            <p class="enrollment-text" id="rosterEnrollmentText"></p>
+          </div>
+
+          <div class="roster-card">
+            <h3 class="roster-title">Enrolled Students</h3>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Student ID</th>
+                    <th>Name</th>
+                    <th>Major</th>
+                    <th>Year</th>
+                    <th>Email</th>
+                  </tr>
+                </thead>
+                <tbody id="rosterTableBody"></tbody>
+              </table>
+            </div>
+
+            <a href="#" class="back-link" id="backToDashboard">← Back to Instructor Dashboard</a>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer>© 2026 Northern Valley University. All rights reserved.</footer>
+  </div>
+
+  <script>
+    const STORAGE_KEYS = {
+      courseCatalog: "nvuCourseCatalog",
+      instructorSession: "nvuInstructorSession",
+      registered: "nvu_registered_courses"
+    };
+
+    const DEMO_INSTRUCTOR = {
+      facultyId: "nvuprof01",
+      email: "instructor@nvu.edu",
+      password: "NvuTeach123",
+      name: "Asha Patel",
+      assignedCourseIds: ["ACC201-001"]
+    };
+
+    const defaultCourseCatalog = [
+      {
+        id: "ACC201-001",
+        code: "ACC 201",
+        title: "Financial Accounting",
+        section: "001",
+        term: "Fall 2026",
+        days: "Mon / Wed",
+        time: "1:00 PM - 2:15 PM",
+        location: "Business Hall 210",
+        modality: "In Person",
+        capacity: 30,
+        instructorId: "nvuprof01",
+        instructorName: "Patel, Asha",
+        students: [
+          { id: "nvu81101", firstName: "Maya", lastName: "Foster", major: "Accounting", year: "Junior", email: "maya.foster@nvu.edu" },
+          { id: "nvu81102", firstName: "Ethan", lastName: "Cole", major: "Finance", year: "Sophomore", email: "ethan.cole@nvu.edu" },
+          { id: "nvu81103", firstName: "Ava", lastName: "Turner", major: "Business Administration", year: "Junior", email: "ava.turner@nvu.edu" },
+          { id: "nvu81104", firstName: "Liam", lastName: "Price", major: "Accounting", year: "Senior", email: "liam.price@nvu.edu" },
+          { id: "nvu81105", firstName: "Chloe", lastName: "Brooks", major: "Marketing", year: "Sophomore", email: "chloe.brooks@nvu.edu" },
+          { id: "nvu81106", firstName: "Noah", lastName: "Hayes", major: "Finance", year: "Junior", email: "noah.hayes@nvu.edu" },
+          { id: "nvu81107", firstName: "Sophia", lastName: "Bennett", major: "Accounting", year: "Senior", email: "sophia.bennett@nvu.edu" },
+          { id: "nvu81108", firstName: "Mason", lastName: "Rivera", major: "Business Administration", year: "First-Year", email: "mason.rivera@nvu.edu" },
+          { id: "nvu81109", firstName: "Isabella", lastName: "Ward", major: "Accounting", year: "Junior", email: "isabella.ward@nvu.edu" },
+          { id: "nvu81110", firstName: "James", lastName: "Kelly", major: "Finance", year: "Sophomore", email: "james.kelly@nvu.edu" },
+          { id: "nvu81111", firstName: "Amelia", lastName: "Ross", major: "Business Analytics", year: "Senior", email: "amelia.ross@nvu.edu" },
+          { id: "nvu81112", firstName: "Benjamin", lastName: "Gray", major: "Accounting", year: "Junior", email: "benjamin.gray@nvu.edu" },
+          { id: "nvu81113", firstName: "Harper", lastName: "Diaz", major: "Marketing", year: "Sophomore", email: "harper.diaz@nvu.edu" },
+          { id: "nvu81114", firstName: "Lucas", lastName: "Morris", major: "Finance", year: "Senior", email: "lucas.morris@nvu.edu" },
+          { id: "nvu81115", firstName: "Ella", lastName: "Powell", major: "Accounting", year: "Junior", email: "ella.powell@nvu.edu" },
+          { id: "nvu81116", firstName: "Henry", lastName: "Collins", major: "Business Administration", year: "Sophomore", email: "henry.collins@nvu.edu" },
+          { id: "nvu81117", firstName: "Grace", lastName: "Reed", major: "Accounting", year: "Senior", email: "grace.reed@nvu.edu" },
+          { id: "nvu81118", firstName: "Alexander", lastName: "Perry", major: "Finance", year: "Junior", email: "alexander.perry@nvu.edu" },
+          { id: "nvu81119", firstName: "Zoe", lastName: "Sanders", major: "Business Analytics", year: "First-Year", email: "zoe.sanders@nvu.edu" },
+          { id: "nvu81120", firstName: "Daniel", lastName: "Cook", major: "Accounting", year: "Sophomore", email: "daniel.cook@nvu.edu" },
+          { id: "nvu81121", firstName: "Lily", lastName: "Morgan", major: "Marketing", year: "Junior", email: "lily.morgan@nvu.edu" },
+          { id: "nvu81122", firstName: "Michael", lastName: "Bell", major: "Finance", year: "Senior", email: "michael.bell@nvu.edu" },
+          { id: "nvu81123", firstName: "Scarlett", lastName: "Bailey", major: "Accounting", year: "Junior", email: "scarlett.bailey@nvu.edu" },
+          { id: "nvu81124", firstName: "Jack", lastName: "Howard", major: "Business Administration", year: "Sophomore", email: "jack.howard@nvu.edu" },
+          { id: "nvu81125", firstName: "Aria", lastName: "Wood", major: "Accounting", year: "Senior", email: "aria.wood@nvu.edu" },
+          { id: "nvu81126", firstName: "Sebastian", lastName: "Watson", major: "Finance", year: "Junior", email: "sebastian.watson@nvu.edu" },
+          { id: "nvu81127", firstName: "Nora", lastName: "James", major: "Business Analytics", year: "Sophomore", email: "nora.james@nvu.edu" },
+          { id: "nvu81128", firstName: "Owen", lastName: "Baker", major: "Accounting", year: "Senior", email: "owen.baker@nvu.edu" }
+        ]
+      }
+    ];
+
+    let currentView = "login";
+    let selectedCourseId = null;
+
+    function cloneData(data) {
+      return JSON.parse(JSON.stringify(data));
+    }
+
+    function getRegisteredCourses() {
+      const raw = localStorage.getItem(STORAGE_KEYS.registered);
+      if (!raw) return [];
+
+      try {
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function buildCurrentStudentProfile() {
+      const storedUser = (localStorage.getItem("studentUser") || "nvu123456").trim();
+      const isEmail = storedUser.includes("@");
+
+      return {
+        id: isEmail ? "nvu123456" : storedUser || "nvu123456",
+        firstName: "Taylor",
+        lastName: "Morgan",
+        major: "Information Systems",
+        year: "Junior",
+        email: isEmail ? storedUser.toLowerCase() : "student@nvu.edu"
+      };
+    }
+
+    function normalizeCourseId(courseId) {
+      const value = String(courseId || "").trim().toUpperCase();
+      return value.replace(/-([A-Z]+\d{4})$/, "");
+    }
+
+    function buildCourseKey(course) {
+      const code = String(course.code || course.courseCode || "").replace(/\s+/g, "").toUpperCase();
+      const section = String(course.section || "").trim().toUpperCase();
+      if (!code || !section) return normalizeCourseId(course.id);
+      return `${code}-${section}`;
+    }
+
+    function mapRegisteredCourseToInstructorCourse(course, studentProfile, instructorCourse) {
+      return {
+        id: instructorCourse ? instructorCourse.id : normalizeCourseId(course.id) || `${String(course.code || course.courseCode || "").replace(/\s+/g, "")}-${course.section}`,
+        code: course.courseCode || course.code,
+        title: course.title,
+        section: course.section,
+        term: course.semester || instructorCourse?.term || "Fall 2026",
+        days: course.daysLabel || (Array.isArray(course.days) ? course.days.join(" / ") : course.days) || instructorCourse?.days || "TBA",
+        time: course.time || course.timeLabel || instructorCourse?.time || "TBA",
+        location: course.location || instructorCourse?.location || "TBA",
+        modality: course.modality || course.mode || instructorCourse?.modality || "In Person",
+        capacity: Number(instructorCourse?.capacity || course.capacity || 30),
+        instructorId: DEMO_INSTRUCTOR.facultyId,
+        instructorName: "Patel, Asha",
+        students: [studentProfile]
+      };
+    }
+
+    function syncInstructorCatalogWithRegistrations() {
+      const baseCatalog = cloneData(defaultCourseCatalog);
+      const registeredCourses = getRegisteredCourses();
+      const studentProfile = buildCurrentStudentProfile();
+
+      const assignedCatalog = baseCatalog.filter(course => course.instructorId === DEMO_INSTRUCTOR.facultyId);
+      const assignedById = new Map(assignedCatalog.map(course => [course.id, course]));
+      const assignedByKey = new Map(assignedCatalog.map(course => [buildCourseKey(course), course]));
+
+      registeredCourses.forEach(course => {
+        const registeredInstructor = String(course.instructor || "").trim().toLowerCase();
+        const teachesCourse = registeredInstructor === "patel, asha";
+
+        if (!teachesCourse) return;
+
+        const matchingAssignedCourse =
+          assignedById.get(normalizeCourseId(course.id)) ||
+          assignedByKey.get(buildCourseKey(course));
+
+        if (!matchingAssignedCourse) return;
+
+        const existingCourse = assignedById.get(matchingAssignedCourse.id);
+        if (!existingCourse) return;
+
+        const alreadyListed = existingCourse.students.some(student => student.id === studentProfile.id);
+        if (!alreadyListed) {
+          existingCourse.students.push(studentProfile);
+        }
+      });
+
+      const syncedCatalog = Array.from(assignedById.values()).sort((a, b) => {
+        const termCompare = (a.term || "").localeCompare(b.term || "");
+        if (termCompare !== 0) return termCompare;
+        return (a.code + a.section).localeCompare(b.code + b.section);
+      });
+
+      saveCourseCatalog(syncedCatalog);
+    }
+
+    function setHeaderSubtitle(text) {
+      document.getElementById("headerSubTitle").textContent = text;
+    }
+
+    function saveCourseCatalog(catalog) {
+      localStorage.setItem(STORAGE_KEYS.courseCatalog, JSON.stringify(catalog));
+    }
+
+    function getCourseCatalog() {
+      const raw = localStorage.getItem(STORAGE_KEYS.courseCatalog);
+
+      if (!raw) {
+        saveCourseCatalog(cloneData(defaultCourseCatalog));
+        return cloneData(defaultCourseCatalog);
+      }
+
+      try {
+        const parsed = JSON.parse(raw);
+        if (!Array.isArray(parsed)) {
+          saveCourseCatalog(cloneData(defaultCourseCatalog));
+          return cloneData(defaultCourseCatalog);
+        }
+        return parsed;
+      } catch (e) {
+        saveCourseCatalog(cloneData(defaultCourseCatalog));
+        return cloneData(defaultCourseCatalog);
+      }
+    }
+
+    function getInstructorSession() {
+      const raw = localStorage.getItem(STORAGE_KEYS.instructorSession);
+      if (!raw) return null;
+      try {
+        return JSON.parse(raw);
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function saveInstructorSession(session) {
+      localStorage.setItem(STORAGE_KEYS.instructorSession, JSON.stringify(session));
+    }
+
+    function clearInstructorSession() {
+      localStorage.removeItem(STORAGE_KEYS.instructorSession);
+    }
+
+    function getAssignedCourses() {
+      syncInstructorCatalogWithRegistrations();
+      const catalog = getCourseCatalog();
+      return catalog.filter(course => DEMO_INSTRUCTOR.assignedCourseIds.includes(course.id));
+    }
+
+    function getCourseById(courseId) {
+      const catalog = getCourseCatalog();
+      return catalog.find(course => course.id === courseId) || null;
+    }
+
+    function showView(viewName) {
+      currentView = viewName;
+
+      document.getElementById("loginView").classList.toggle("hidden", viewName !== "login");
+      document.getElementById("dashboardView").classList.toggle("hidden", viewName !== "dashboard");
+      document.getElementById("rosterView").classList.toggle("hidden", viewName !== "roster");
+      document.getElementById("authActions").classList.toggle("hidden", viewName === "login");
+
+      if (viewName === "login") setHeaderSubtitle("Instructor Login");
+      if (viewName === "dashboard") setHeaderSubtitle("Instructor Dashboard");
+      if (viewName === "roster") setHeaderSubtitle("Course Roster");
+    }
+
+    function renderDashboard() {
+      const assignedCourses = getAssignedCourses();
+
+      document.getElementById("assignedCoursesCount").textContent = assignedCourses.length;
+
+      let totalEnrolled = 0;
+      assignedCourses.forEach(course => {
+        totalEnrolled += course.students.length;
+      });
+      document.getElementById("totalEnrolledCount").textContent = totalEnrolled;
+
+      const coursesGrid = document.getElementById("coursesGrid");
+      coursesGrid.innerHTML = "";
+
+      assignedCourses.forEach(course => {
+        const card = document.createElement("article");
+        card.className = "course-card";
+
+        card.innerHTML = `
+          <div class="course-top">
+            <div>
+              <div class="term-label">${course.term}</div>
+              <h4 class="course-title">${course.code} · ${course.title}</h4>
+              <div class="course-meta">
+                Section ${course.section} · ${course.days} · ${course.time}<br>
+                ${course.location}
+              </div>
+            </div>
+            <span class="mode-pill">${course.modality}</span>
+          </div>
+
+          <div class="course-bottom">
+            <div class="enrollment-text">${course.students.length} / ${course.capacity} Enrolled</div>
+            <button class="btn btn-green view-roster-btn" data-course-id="${course.id}" type="button">View Roster</button>
+          </div>
+        `;
+
+        coursesGrid.appendChild(card);
+      });
+
+      document.querySelectorAll(".view-roster-btn").forEach(button => {
+        button.addEventListener("click", function () {
+          selectedCourseId = this.getAttribute("data-course-id");
+          renderRoster(selectedCourseId);
+          showView("roster");
+        });
+      });
+    }
+
+    function renderRoster(courseId) {
+      const course = getCourseById(courseId);
+      if (!course) return;
+
+      document.getElementById("rosterTermLabel").textContent = course.term.toUpperCase() + " · SECTION " + course.section;
+      document.getElementById("rosterCourseTitle").textContent = course.code + " — " + course.title;
+      document.getElementById("rosterCourseMeta").textContent = course.days + " · " + course.time + " · " + course.location;
+      document.getElementById("rosterEnrollmentText").textContent = course.students.length + " / " + course.capacity + " Enrolled";
+
+      const tbody = document.getElementById("rosterTableBody");
+      tbody.innerHTML = "";
+
+      const sortedStudents = course.students.slice().sort((a, b) => {
+        const nameA = (a.lastName + ", " + a.firstName).toLowerCase();
+        const nameB = (b.lastName + ", " + b.firstName).toLowerCase();
+        return nameA.localeCompare(nameB);
+      });
+
+      sortedStudents.forEach(student => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${student.id}</td>
+          <td class="student-name">${student.lastName}, ${student.firstName}</td>
+          <td>${student.major}</td>
+          <td><span class="year-pill">${student.year}</span></td>
+          <td><a class="email-link" href="mailto:${student.email}">${student.email}</a></td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    function loginInstructor() {
+      const facultyIdInput = document.getElementById("facultyId").value.trim().toLowerCase();
+      const passwordInput = document.getElementById("facultyPassword").value.trim();
+      const errorBox = document.getElementById("loginError");
+
+      const validId =
+        facultyIdInput === DEMO_INSTRUCTOR.facultyId.toLowerCase() ||
+        facultyIdInput === DEMO_INSTRUCTOR.email.toLowerCase();
+
+      const validPassword = passwordInput === DEMO_INSTRUCTOR.password;
+
+      if (!validId || !validPassword) {
+        errorBox.style.display = "block";
+        return;
+      }
+
+      errorBox.style.display = "none";
+
+      saveInstructorSession({
+        instructorId: DEMO_INSTRUCTOR.facultyId,
+        name: DEMO_INSTRUCTOR.name,
+        email: DEMO_INSTRUCTOR.email,
+        loggedInAt: new Date().toISOString()
+      });
+
+      document.getElementById("welcomeText").textContent = "Welcome, " + DEMO_INSTRUCTOR.name;
+      renderDashboard();
+      showView("dashboard");
+    }
+
+    function logoutInstructor() {
+      const confirmLogout = confirm("Are you sure you want to sign out?");
+      if (!confirmLogout) return;
+
+      clearInstructorSession();
+      selectedCourseId = null;
+      document.getElementById("facultyId").value = "";
+      document.getElementById("facultyPassword").value = "";
+      showView("login");
+    }
+
+    function attachEvents() {
+      document.getElementById("loginBtn").addEventListener("click", loginInstructor);
+
+      document.getElementById("facultyId").addEventListener("keydown", function (e) {
+        if (e.key === "Enter") loginInstructor();
+      });
+
+      document.getElementById("facultyPassword").addEventListener("keydown", function (e) {
+        if (e.key === "Enter") loginInstructor();
+      });
+
+      document.getElementById("forgotBtn").addEventListener("click", function () {
+        window.location.href = "forgot-password.html";
+      });
+
+      document.getElementById("logoutBtn").addEventListener("click", logoutInstructor);
+
+      document.getElementById("backToDashboard").addEventListener("click", function (e) {
+        e.preventDefault();
+        renderDashboard();
+        showView("dashboard");
+      });
+
+      window.addEventListener("storage", function (event) {
+        if (event.key === STORAGE_KEYS.courseCatalog || event.key === STORAGE_KEYS.registered) {
+          syncInstructorCatalogWithRegistrations();
+
+          if (currentView === "dashboard") {
+            renderDashboard();
+          } else if (currentView === "roster" && selectedCourseId) {
+            renderDashboard();
+            renderRoster(selectedCourseId);
+          }
+        }
+      });
+    }
+
+    function restoreSession() {
+      const session = getInstructorSession();
+
+      if (session) {
+        document.getElementById("welcomeText").textContent = "Welcome, " + session.name;
+        renderDashboard();
+        showView("dashboard");
+      } else {
+        showView("login");
+      }
+    }
+
+    function seedCatalogIfMissing() {
+      syncInstructorCatalogWithRegistrations();
+    }
+
+    seedCatalogIfMissing();
+    attachEvents();
+    restoreSession();
+  </script>
+</body>
+</html>

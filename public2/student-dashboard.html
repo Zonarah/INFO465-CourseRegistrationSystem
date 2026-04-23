@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NVU Student Dashboard</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --green:#176f3d;
+      --green-dark:#11582f;
+      --green-soft:#e6eee8;
+      --gold:#cda347;
+      --gold-dark:#b48c38;
+      --bg:#f3f3f1;
+      --card:#ffffff;
+      --border:#d7d9d3;
+      --muted:#6c746f;
+      --text:#202522;
+      --shadow:0 4px 14px rgba(0,0,0,.06);
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    body {
+      font-family:"Inter",sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      min-height:100vh;
+    }
+
+    a{text-decoration:none;color:inherit}
+
+    .topbar{
+      background:var(--green);
+      border-bottom:4px solid var(--gold);
+      min-height:122px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:22px 34px;
+      gap:20px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      color:#fff;
+      min-width:0;
+    }
+
+    .brand-logo{
+      width:72px;
+      height:72px;
+      background:#f6f6f3;
+      border-radius:16px;
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      flex-shrink:0;
+    }
+
+    .brand-logo img{
+      width:42px;
+      height:42px;
+      object-fit:contain;
+    }
+
+    .brand-title{
+      font-size:18px;
+      font-weight:800;
+      letter-spacing:.04em;
+      color:#fff;
+      white-space:nowrap;
+    }
+
+    .brand-subtitle{
+      font-size:14px;
+      font-weight:500;
+      color:#eef5ef;
+      margin-top:4px;
+    }
+
+    .header-actions{
+      display:flex;
+      align-items:center;
+      gap:16px;
+      flex-wrap:wrap;
+    }
+
+    .welcome-pill,
+    .gold-btn{
+      height:50px;
+      border-radius:16px;
+      padding:0 20px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:700;
+      font-size:16px;
+      border:none;
+    }
+
+    .welcome-pill{
+      background:rgba(255,255,255,.16);
+      color:#fff;
+    }
+
+    .gold-btn{
+      background:var(--gold);
+      color:#172018;
+      cursor:pointer;
+      transition:.2s ease;
+    }
+
+    .gold-btn:hover{
+      background:var(--gold-dark);
+    }
+
+    .icon{
+      width:18px;
+      height:18px;
+      stroke:currentColor;
+      fill:none;
+      stroke-width:2;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+      flex-shrink:0;
+    }
+
+    .page{
+      max-width:1380px;
+      margin:0 auto;
+      padding:30px 24px 70px;
+    }
+
+    .card{
+      background:var(--card);
+      border:2px solid var(--border);
+      border-radius:28px;
+      box-shadow:var(--shadow);
+      margin-bottom:30px;
+    }
+
+    .hero{
+      padding:34px 42px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .hero::before{
+      content:"";
+      position:absolute;
+      left:0;
+      top:0;
+      bottom:0;
+      width:10px;
+      background:var(--gold);
+      border-radius:24px 0 0 24px;
+    }
+
+    .hero h1,
+    .section-title,
+    .service-title{
+      font-family:"Libre Baskerville",serif;
+      color:var(--green);
+      font-weight:700;
+    }
+
+    .hero h1{
+      font-size:58px;
+      line-height:1.05;
+      margin-bottom:12px;
+    }
+
+    .hero p{
+      font-size:18px;
+      color:var(--muted);
+      line-height:1.5;
+    }
+
+    .stats-grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:18px;
+      margin-bottom:30px;
+    }
+
+    .stat-card{
+      background:#fff;
+      border:2px solid var(--border);
+      border-radius:24px;
+      box-shadow:var(--shadow);
+      padding:26px 22px;
+      min-height:172px;
+      position:relative;
+    }
+
+    .stat-card::before{
+      content:"";
+      position:absolute;
+      left:0;
+      right:0;
+      top:0;
+      height:6px;
+      background:var(--green);
+      border-radius:22px 22px 0 0;
+    }
+
+    .stat-label{
+      font-size:14px;
+      font-weight:800;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+      color:#757c77;
+      margin-bottom:14px;
+    }
+
+    .stat-value{
+      font-size:28px;
+      font-weight:800;
+      color:var(--green);
+      line-height:1.1;
+      margin-bottom:10px;
+    }
+
+    .stat-sub{
+      color:var(--muted);
+      font-size:15px;
+      line-height:1.45;
+    }
+
+    .section-title{
+      font-size:26px;
+      margin-bottom:22px;
+    }
+
+    .services-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:22px;
+    }
+
+    .service-card{
+      background:#fff;
+      border:2px solid var(--border);
+      border-radius:28px;
+      box-shadow:var(--shadow);
+      padding:32px 22px 20px;
+      min-height:290px;
+      display:flex;
+      flex-direction:column;
+    }
+
+    .service-icon{
+      width:58px;
+      height:58px;
+      border-radius:16px;
+      background:#edf2ed;
+      display:grid;
+      place-items:center;
+      margin-bottom:24px;
+      color:var(--green);
+    }
+
+    .service-icon svg{
+      width:26px;
+      height:26px;
+      stroke:currentColor;
+      fill:none;
+      stroke-width:2;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+    }
+
+    .service-title{
+      font-size:24px;
+      margin-bottom:14px;
+    }
+
+    .service-copy{
+      color:var(--muted);
+      font-size:16px;
+      line-height:1.55;
+      margin-bottom:22px;
+      max-width:320px;
+    }
+
+    .service-btn{
+      margin-top:auto;
+      width:max-content;
+      min-width:210px;
+      height:48px;
+      border:none;
+      border-radius:16px;
+      background:var(--green);
+      color:#fff;
+      font-size:16px;
+      font-weight:800;
+      cursor:pointer;
+      transition:.2s ease;
+      padding:0 22px;
+    }
+
+    .service-btn:hover{
+      background:var(--green-dark);
+    }
+
+    footer{
+      text-align:center;
+      color:#666f69;
+      font-size:16px;
+      padding-top:16px;
+    }
+
+    @media (max-width:1200px){
+      .stats-grid{grid-template-columns:repeat(2,1fr)}
+      .services-grid{grid-template-columns:1fr}
+    }
+
+    @media (max-width:900px){
+      .hero h1{font-size:42px}
+      .page{padding-left:16px;padding-right:16px}
+    }
+
+    @media (max-width:760px){
+      .topbar{
+        padding:18px 16px;
+        align-items:flex-start;
+        flex-direction:column;
+      }
+
+      .brand-title{white-space:normal}
+      .header-actions{width:100%}
+      .welcome-pill,.gold-btn{
+        width:100%;
+        justify-content:center;
+      }
+
+      .hero{
+        padding:28px 22px;
+      }
+
+      .hero h1{
+        font-size:34px;
+      }
+
+      .stats-grid{
+        grid-template-columns:1fr;
+      }
+
+      .brand-logo{
+        width:56px;
+        height:56px;
+      }
+
+      .brand-logo img{
+        width:34px;
+        height:34px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-logo">
+        <img src="images/logo.png" alt="NVU logo">
+      </div>
+      <div class="brand-text">
+        <div class="brand-title">NORTHERN VALLEY UNIVERSITY</div>
+        <div class="brand-subtitle">Student Services Dashboard</div>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <div class="welcome-pill">Welcome, Student</div>
+
+      <button class="gold-btn" id="signOutBtn" type="button">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+          <path d="M10 17 15 12 10 7"></path>
+          <path d="M15 12H3"></path>
+        </svg>
+        Sign Out
+      </button>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="card hero">
+      <h1>Student Dashboard</h1>
+      <p>Access academic services, browse available courses, and manage registration through the NVU student portal.</p>
+    </section>
+
+    <section class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Current Semester</div>
+        <div class="stat-value" id="currentSemester">Fall 2026</div>
+        <div class="stat-sub">Primary academic term</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Major</div>
+        <div class="stat-value">Information Systems</div>
+        <div class="stat-sub">Declared major</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Registered Credits</div>
+        <div class="stat-value" id="registeredCredits">0 Credits</div>
+        <div class="stat-sub">Maximum allowed: 18 credits</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Academic Standing</div>
+        <div class="stat-value" id="academicStanding">Good</div>
+        <div class="stat-sub" id="standingNote">No active registration holds</div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Student Services</h2>
+
+      <div class="services-grid">
+        <article class="service-card">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="M20 20l-3.5-3.5"></path>
+            </svg>
+          </div>
+          <h3 class="service-title">Browse Classes</h3>
+          <p class="service-copy">Search available courses by subject, number, or instructor.</p>
+          <button class="service-btn" onclick="window.location.href='browse-classes.html'">Open Course Search</button>
+        </article>
+
+        <article class="service-card">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M9 3h6"></path>
+              <path d="M10 3v3"></path>
+              <path d="M14 3v3"></path>
+              <rect x="6" y="6" width="12" height="15" rx="2"></rect>
+              <path d="M9 11h6"></path>
+              <path d="M9 15h6"></path>
+            </svg>
+          </div>
+          <h3 class="service-title">Register for Classes</h3>
+          <p class="service-copy">Review selected courses and complete registration.</p>
+          <button class="service-btn" onclick="window.location.href='registration.html'">Open Registration</button>
+        </article>
+
+        <article class="service-card">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="16" rx="2"></rect>
+              <path d="M3 10h18"></path>
+              <path d="M8 3v4"></path>
+              <path d="M16 3v4"></path>
+            </svg>
+          </div>
+          <h3 class="service-title">View My Schedule</h3>
+          <p class="service-copy">View your current class schedule and registered credits.</p>
+          <button class="service-btn" onclick="window.location.href='view-my-schedule.html'">View Schedule</button>
+        </article>
+      </div>
+    </section>
+
+    <footer>© 2026 Northern Valley University. All rights reserved.</footer>
+  </main>
+
+  <script>
+    const STORAGE_KEYS = {
+      registered: "nvu_registered_courses",
+      semester: "nvu_current_semester",
+      loggedIn: "isStudent"
+    };
+
+    function getRegisteredCourses() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEYS.registered);
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (error) {
+        return [];
+      }
+    }
+
+    function getSemester() {
+      return localStorage.getItem(STORAGE_KEYS.semester) || "Fall 2026";
+    }
+
+    function sumCredits(courses) {
+      return courses.reduce((sum, course) => sum + Number(course.credits || 0), 0);
+    }
+
+    function renderDashboard() {
+      const registeredCourses = getRegisteredCourses();
+      const registeredCredits = sumCredits(registeredCourses);
+      const semester = registeredCourses[0]?.semester || getSemester();
+
+      document.getElementById("currentSemester").textContent = semester;
+      document.getElementById("registeredCredits").textContent = `${registeredCredits} Credits`;
+
+      const academicStanding = document.getElementById("academicStanding");
+      const standingNote = document.getElementById("standingNote");
+
+      if (registeredCredits > 18) {
+        academicStanding.textContent = "Review Needed";
+        standingNote.textContent = "Credit load exceeds the maximum limit.";
+      } else {
+        academicStanding.textContent = "Good";
+        standingNote.textContent = "No active registration holds";
+      }
+    }
+
+    function handleSignOut() {
+      const confirmed = confirm("Are you sure you want to sign out?");
+      if (!confirmed) return;
+
+      localStorage.removeItem(STORAGE_KEYS.loggedIn);
+      window.location.href = "index.html";
+    }
+
+    document.getElementById("signOutBtn").addEventListener("click", handleSignOut);
+
+    window.addEventListener("storage", function(event) {
+      if (event.key === STORAGE_KEYS.registered || event.key === STORAGE_KEYS.semester) {
+        renderDashboard();
+      }
+    });
+
+    renderDashboard();
+  </script>
+</body>
+</html>

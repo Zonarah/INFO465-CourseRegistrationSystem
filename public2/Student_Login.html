@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NVU Student Portal</title>
+  <style>
+    :root {
+      --nvu-green: #146c43;
+      --nvu-green-dark: #0f5a38;
+      --nvu-gold: #d1a23d;
+      --nvu-bg: #f3f4f1;
+      --nvu-card: #ffffff;
+      --nvu-border: #d7dbd4;
+      --nvu-text: #253127;
+      --nvu-muted: #66736a;
+      --nvu-soft: #eef2ed;
+      --shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      --max-width: 1200px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--nvu-bg);
+      color: var(--nvu-text);
+      font-family: "Inter", sans-serif;
+    }
+
+    .app-shell {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      background: var(--nvu-green);
+      color: white;
+      border-bottom: 4px solid var(--nvu-gold);
+      padding: 12px 28px 18px;
+    }
+
+    .topbar-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .logo-box {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .logo-box img {
+      width: 78%;
+      height: 78%;
+      object-fit: contain;
+    }
+
+    .brand-title {
+      line-height: 1.1;
+    }
+
+    .brand-title h1 {
+      margin: 0;
+      font-family: "Inter", sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+
+    .brand-title p {
+      margin: 5px 0 0;
+      font-size: 14px;
+      opacity: 0.92;
+    }
+
+    main {
+      flex: 1;
+      padding: 44px 20px 20px;
+    }
+
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .login-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: calc(100vh - 180px);
+      padding-top: 20px;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 660px;
+      background: white;
+      border: 1px solid var(--nvu-border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .login-hero {
+      background: var(--nvu-green);
+      color: white;
+      padding: 30px 40px;
+      border-bottom: 4px solid var(--nvu-gold);
+      text-align: center;
+    }
+
+    .login-hero h2 {
+      margin: 0;
+      font-size: 3rem;
+      line-height: 1.05;
+      font-weight: 700;
+    }
+
+    .login-note,
+    .error-box {
+      padding: 22px 36px;
+      border-left: 8px solid var(--nvu-gold);
+      background: #eef1ec;
+    }
+
+    .error-box {
+      display: none;
+      border-left: 8px solid #b42318;
+      background: #fdf0ef;
+    }
+
+    .error-box.show {
+      display: block;
+    }
+
+    .login-note h3,
+    .error-box h3 {
+      margin: 0 0 8px;
+      font-size: 1.5rem;
+      color: #1e251f;
+    }
+
+    .login-note p,
+    .error-box p {
+      margin: 0;
+      color: var(--nvu-muted);
+      font-size: 1rem;
+    }
+
+    .error-box p {
+      color: #8a1c13;
+    }
+
+    .login-form {
+      padding: 34px 36px 24px;
+    }
+
+    .form-group {
+      margin-bottom: 22px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 800;
+      font-size: 1rem;
+      margin-bottom: 10px;
+      color: #232823;
+    }
+
+    .form-control {
+      width: 100%;
+      border: 3px solid #d6d8d2;
+      border-radius: 14px;
+      padding: 16px 15px;
+      font-size: 1rem;
+      background: #fafaf8;
+      font-family: "Inter", sans-serif;
+    }
+
+    .form-control:focus {
+      border-color: var(--nvu-green);
+      outline: none;
+      background: white;
+    }
+
+    .login-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-top: 10px;
+      margin-bottom: 26px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: none;
+      outline: none;
+      cursor: pointer;
+      font-family: "Inter", sans-serif;
+      font-weight: 700;
+      transition: 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      opacity: 0.96;
+    }
+
+    .btn-gold {
+      background: var(--nvu-gold);
+      color: #1f241f;
+      border-radius: 14px;
+      padding: 12px 22px;
+      font-size: 0.96rem;
+      box-shadow: var(--shadow);
+    }
+
+    .btn-link {
+      background: transparent;
+      color: var(--nvu-green);
+      font-size: 0.96rem;
+      padding: 0;
+      text-decoration: underline;
+      font-weight: 700;
+    }
+
+    .return-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: var(--nvu-green);
+      font-weight: 700;
+      margin: 16px 0 24px;
+      font-size: 0.96rem;
+    }
+
+    .demo-box {
+      border: 1px solid var(--nvu-border);
+      border-radius: 16px;
+      padding: 18px 20px;
+      background: #fafbf8;
+      color: #333a34;
+      line-height: 1.65;
+      font-size: 0.95rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 18px 12px 26px;
+      color: #5b655d;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 760px) {
+      .topbar-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .brand-title h1 {
+        font-size: 1.3rem;
+      }
+
+      .login-hero h2 {
+        font-size: 2.3rem;
+      }
+
+      .login-form,
+      .login-note,
+      .error-box,
+      .login-hero {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+    }
+  </style>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand">
+          <div class="logo-box">
+            <img src="images/logo.png" alt="Northern Valley University logo">
+          </div>
+          <div class="brand-title">
+            <h1>NORTHERN VALLEY UNIVERSITY</h1>
+            <p>Student Login</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <section class="login-wrap">
+          <div class="login-card">
+            <div class="login-hero">
+              <h2>Student Login</h2>
+            </div>
+
+            <div class="login-note" id="signInBox">
+              <h3>Sign In</h3>
+              <p>Use your Northern Valley University student credentials to access student services.</p>
+            </div>
+
+            <div class="error-box" id="errorBox">
+              <h3>Login failed.</h3>
+              <p>The ID/email or password you entered is incorrect. Please try again.</p>
+            </div>
+
+            <div class="login-form">
+              <form id="loginForm">
+                <div class="form-group">
+                  <label for="studentId">Student eID / Student Email</label>
+                  <input
+                    type="text"
+                    id="studentId"
+                    class="form-control"
+                    placeholder="Enter your student eID or email"
+                    autocomplete="username"
+                  >
+                </div>
+
+                <div class="form-group">
+                  <label for="studentPassword">Password</label>
+                  <input
+                    type="password"
+                    id="studentPassword"
+                    class="form-control"
+                    placeholder="Enter your password"
+                    autocomplete="current-password"
+                  >
+                </div>
+
+                <div class="login-row">
+                  <button class="btn btn-gold" type="submit">Login</button>
+                  <button class="btn btn-link" type="button" id="forgotBtn">Forgot your password?</button>
+                </div>
+              </form>
+
+              <a href="index.html" class="return-link">← Return to NVU eServices</a>
+
+              <div class="demo-box">
+                <strong>Hardcoded demo login:</strong><br>
+                Student eID or Email: <strong>nvu123456</strong> or <strong>student@nvu.edu</strong><br>
+                Password: <strong>NvuStudent123</strong>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer>© 2026 Northern Valley University. All rights reserved.</footer>
+  </div>
+
+  <script>
+    const loginForm = document.getElementById("loginForm");
+    const studentIdInput = document.getElementById("studentId");
+    const studentPasswordInput = document.getElementById("studentPassword");
+    const signInBox = document.getElementById("signInBox");
+    const errorBox = document.getElementById("errorBox");
+    const forgotBtn = document.getElementById("forgotBtn");
+
+    const validIds = ["nvu123456", "student@nvu.edu"];
+    const validPassword = "NvuStudent123";
+
+    loginForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const enteredId = studentIdInput.value.trim().toLowerCase();
+      const enteredPassword = studentPasswordInput.value.trim();
+
+      const validLogin =
+        validIds.includes(enteredId) &&
+        enteredPassword === validPassword;
+
+      if (validLogin) {
+        localStorage.setItem("isStudent", "true");
+        localStorage.setItem("studentLoggedIn", "true");
+        localStorage.setItem("studentUser", enteredId);
+        window.location.href = "student-dashboard.html";
+      } else {
+        signInBox.style.display = "none";
+        errorBox.classList.add("show");
+      }
+    });
+
+    function resetErrorState() {
+      errorBox.classList.remove("show");
+      signInBox.style.display = "block";
+    }
+
+    studentIdInput.addEventListener("input", resetErrorState);
+    studentPasswordInput.addEventListener("input", resetErrorState);
+
+    forgotBtn.addEventListener("click", function () {
+      window.location.href = "forgot-password.html";
+    });
+  </script>
+</body>
+</html>

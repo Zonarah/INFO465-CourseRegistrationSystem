@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NVU eServices Portal</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --green: #176f3d;
+      --green-dark: #125a31;
+      --gold: #c89a32;
+      --bg: #f2f2f0;
+      --card: #ffffff;
+      --border: #d8d8d2;
+      --muted: #66706a;
+      --heading: #1f2421;
+      --shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #111;
+      font-family:"Inter",sans-serif;
+      color: var(--heading);
+    }
+
+    .page-shell {
+      width: 100%;
+      min-height: 100vh;
+      background: var(--bg);
+      border-radius: 0 0 18px 18px;
+      overflow: hidden;
+    }
+
+    .topbar {
+      background: var(--green);
+      border-bottom: 4px solid #cfa249;
+      height: 95px;
+      display: flex;
+      align-items: center;
+      padding: 0 58px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      color: #fff;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      font-size: 18px;
+    }
+
+    .brand-badge {
+      width: 56px;
+      height: 56px;
+      background: #f5f5f2;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+
+    .brand-badge img {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+    }
+
+    .container {
+      max-width: 1260px;
+      margin: 58px auto 72px;
+      padding: 0 32px;
+    }
+
+    .hero {
+      background: linear-gradient(90deg, #f8f8f7 0%, #f8f8f6 70%, #efe6d5 100%);
+      border: 2px solid #e2e0d8;
+      border-radius: 28px;
+      min-height: 195px;
+      display: flex;
+      align-items: center;
+      padding: 34px 42px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-left {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+    }
+
+    .hero-logo img {
+      width: 92px;
+      height: 92px;
+      object-fit: contain;
+    }
+
+    .hero-text h1 {
+      font-family: "Libre Baskerville", serif;
+      font-size: 58px;
+      line-height: 1.05;
+      font-weight: 700;
+      color: #171b18;
+      margin-bottom: 10px;
+    }
+
+    .hero-text p {
+      font-size: 14px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: #657069;
+      font-weight: 700;
+    }
+
+    .services-row {
+      margin-top: 54px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .services-copy h2 {
+      font-family: "Libre Baskerville", serif;
+      font-size: 34px;
+      margin-bottom: 8px;
+      color: #202420;
+    }
+
+    .services-copy p {
+      font-size: 18px;
+      color: #707871;
+      line-height: 1.4;
+    }
+
+    .term-status {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: #c7912b;
+      text-transform: uppercase;
+      padding-bottom: 10px;
+      white-space: nowrap;
+    }
+
+    .card-grid {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .service-card {
+      background: var(--card);
+      border: 2px solid #dcdcd6;
+      border-radius: 18px;
+      padding: 26px 28px 26px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      min-height: 352px;
+    }
+
+    .pill {
+      border-radius: 14px;
+      text-align: center;
+      font-weight: 800;
+      font-size: 14px;
+      letter-spacing: 0.04em;
+      padding: 13px 14px;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      border: 2px solid transparent;
+    }
+
+    .pill.public {
+      background: #e4ebe7;
+      color: var(--green);
+      border-color: #c8d8cf;
+    }
+
+    .pill.student,
+    .pill.faculty {
+      background: #efe7da;
+      color: #c18923;
+      border-color: #e1c99f;
+    }
+
+    .service-title {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .icon-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: #e4ebe7;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .icon-wrap svg {
+      width: 22px;
+      height: 22px;
+      stroke: var(--green);
+      fill: none;
+      stroke-width: 2.1;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .service-title h3 {
+      font-family: "Libre Baskerville", serif;
+      font-size: 21px;
+      line-height: 1.2;
+      color: #1f2421;
+    }
+
+    .service-card p.desc {
+      font-size: 17px;
+      line-height: 1.55;
+      color: #6d756f;
+      margin-bottom: 28px;
+      max-width: 95%;
+    }
+
+    .service-card .note {
+      margin-top: auto;
+      margin-bottom: 16px;
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--green);
+    }
+
+    .cta {
+      display: block;
+      width: 100%;
+      text-align: center;
+      background: var(--green);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 20px;
+      padding: 16px 18px;
+      border-radius: 12px;
+      border-bottom: 4px solid #d0a042;
+      transition: 0.2s ease;
+    }
+
+    .cta:hover {
+      background: var(--green-dark);
+      transform: translateY(-1px);
+    }
+
+    .cta .arrow {
+      margin-left: 10px;
+      font-size: 21px;
+      vertical-align: middle;
+    }
+
+    footer {
+      text-align: center;
+      padding: 24px 18px 34px;
+      font-size: 15px;
+      color: #68716b;
+    }
+
+    @media (max-width: 1100px) {
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-text h1 {
+        font-size: 44px;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .topbar {
+        padding: 0 20px;
+        height: auto;
+        min-height: 84px;
+      }
+
+      .brand {
+        font-size: 15px;
+      }
+
+      .container {
+        margin-top: 28px;
+        padding: 0 16px 30px;
+      }
+
+      .hero {
+        padding: 26px 20px;
+      }
+
+      .hero-left {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+
+      .hero-text h1 {
+        font-size: 34px;
+      }
+
+      .services-copy h2 {
+        font-size: 28px;
+      }
+
+      .services-copy p,
+      .service-card p.desc,
+      .cta {
+        font-size: 16px;
+      }
+
+      .term-status {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-badge">
+          <img src="images/logo.png" alt="Northern Valley University logo">
+        </div>
+        <span>NORTHERN VALLEY UNIVERSITY</span>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="hero">
+        <div class="hero-left">
+          <div class="hero-logo">
+            <img src="images/logo.png" alt="NVU logo">
+          </div>
+          <div class="hero-text">
+            <h1>NVU eServices Portal</h1>
+            <p>University Systems Access</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="services-row">
+        <div class="services-copy">
+          <h2>Services</h2>
+          <p>Choose how you want to access the university.</p>
+        </div>
+        <div class="term-status">Fall 2026 · Active</div>
+      </section>
+
+      <section class="card-grid">
+        <article class="service-card">
+          <div class="pill public">Public Access</div>
+          <div class="service-title">
+            <div class="icon-wrap">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="11" cy="11" r="6.5"></circle>
+                <path d="M16 16L21 21"></path>
+              </svg>
+            </div>
+            <h3>Course Search</h3>
+          </div>
+          <p class="desc">
+            Browse available courses by subject, course number, instructor, or academic term.
+          </p>
+          <div class="note">No login required</div>
+          <a class="cta" href="browse-classes.html">Search Courses <span class="arrow">→</span></a>
+        </article>
+
+        <article class="service-card">
+          <div class="pill student">Student Access</div>
+          <div class="service-title">
+            <div class="icon-wrap">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M2.5 9.5L12 5l9.5 4.5L12 14 2.5 9.5Z"></path>
+                <path d="M6 11.2V15c0 .8 2.3 2.5 6 2.5s6-1.7 6-2.5v-3.8"></path>
+              </svg>
+            </div>
+            <h3>Student Services</h3>
+          </div>
+          <p class="desc">
+            Register for classes, review your schedule, and manage academic records.
+          </p>
+          <div class="note">Student login required</div>
+          <a class="cta" href="Student_Login.html">Student Sign In <span class="arrow">→</span></a>
+        </article>
+
+        <article class="service-card">
+          <div class="pill faculty">Faculty Access</div>
+          <div class="service-title">
+            <div class="icon-wrap">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="5" y="3.5" width="14" height="17" rx="2"></rect>
+                <path d="M9 8.2h6"></path>
+                <path d="M10 16.2c.3-1.5 1.2-2.5 2-2.5s1.7 1 2 2.5"></path>
+                <circle cx="12" cy="11.1" r="1.5"></circle>
+              </svg>
+            </div>
+            <h3>Instructor Services</h3>
+          </div>
+          <p class="desc">
+            View teaching schedules, access course rosters, and manage instructional data.
+          </p>
+          <div class="note">Instructor login required</div>
+          <a class="cta" href="instructor.html">Instructor Sign In <span class="arrow">→</span></a>
+        </article>
+      </section>
+    </main>
+
+    <footer>
+      © 2026 Northern Valley University. All rights reserved.
+    </footer>
+  </div>
+</body>
+</html>
